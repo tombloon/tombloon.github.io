@@ -1,0 +1,921 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Slabo 27px:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Python,Python3,算法,排序," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="一、排序的基本概念和分类所谓排序，就是使一串记录，按照其中的某个或某些关键字的大小，递增或递减的排列起来的操作。排序算法，就是如何使得记录按照要求排列的方法。
+排序的稳定性：经过某种排序后，如果两个记录序号同等，且两者在原无序记录中的先后秩序依然保持不变，则称所使用的排序方法是稳定的，反之是不稳定的。
+内排序和外排序内排序：排序过程中，待排序的所有记录全部放在内存中外排序：排序过程中，使用到了外部">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基于python的七种经典排序算法">
+<meta property="og:url" content="https://tombloon.github.io/2017/04/04/基于python的七种经典排序算法/index.html">
+<meta property="og:site_name" content="TBOOKS">
+<meta property="og:description" content="一、排序的基本概念和分类所谓排序，就是使一串记录，按照其中的某个或某些关键字的大小，递增或递减的排列起来的操作。排序算法，就是如何使得记录按照要求排列的方法。
+排序的稳定性：经过某种排序后，如果两个记录序号同等，且两者在原无序记录中的先后秩序依然保持不变，则称所使用的排序方法是稳定的，反之是不稳定的。
+内排序和外排序内排序：排序过程中，待排序的所有记录全部放在内存中外排序：排序过程中，使用到了外部">
+<meta property="og:updated_time" content="2017-04-04T14:31:20.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="基于python的七种经典排序算法">
+<meta name="twitter:description" content="一、排序的基本概念和分类所谓排序，就是使一串记录，按照其中的某个或某些关键字的大小，递增或递减的排列起来的操作。排序算法，就是如何使得记录按照要求排列的方法。
+排序的稳定性：经过某种排序后，如果两个记录序号同等，且两者在原无序记录中的先后秩序依然保持不变，则称所使用的排序方法是稳定的，反之是不稳定的。
+内排序和外排序内排序：排序过程中，待排序的所有记录全部放在内存中外排序：排序过程中，使用到了外部">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://tombloon.github.io/2017/04/04/基于python的七种经典排序算法/"/>
+
+
+
+
+
+  <title> 基于python的七种经典排序算法 | TBOOKS </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">TBOOKS</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">TB's NoteBooks</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://tombloon.github.io/2017/04/04/基于python的七种经典排序算法/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Tom Bloon">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="TBOOKS">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                基于python的七种经典排序算法
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-04T22:24:00+08:00">
+                2017-04-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="一、排序的基本概念和分类"><a href="#一、排序的基本概念和分类" class="headerlink" title="一、排序的基本概念和分类"></a>一、排序的基本概念和分类</h2><p>所谓排序，就是使一串记录，按照其中的某个或某些关键字的大小，递增或递减的排列起来的操作。排序算法，就是如何使得记录按照要求排列的方法。</p>
+<p>排序的稳定性：<br>经过某种排序后，如果两个记录序号同等，且两者在原无序记录中的先后秩序依然保持不变，则称所使用的排序方法是稳定的，反之是不稳定的。</p>
+<p>内排序和外排序<br>内排序：排序过程中，待排序的所有记录全部放在内存中<br>外排序：排序过程中，使用到了外部存储。<br>通常讨论的都是内排序。</p>
+<p>影响内排序算法性能的三个因素：</p>
+<ul>
+<li>时间复杂度：即时间性能，高效率的排序算法应该是具有尽可能少的关键字比较次数和记录的移动次数</li>
+<li>空间复杂度：主要是执行算法所需要的辅助空间，越少越好。</li>
+<li>算法复杂性。主要是指代码的复杂性。</li>
+</ul>
+<p>根据排序过程中借助的主要操作，可把内排序分为：</p>
+<ul>
+<li>插入排序</li>
+<li>交换排序</li>
+<li>选择排序</li>
+<li>归并排序</li>
+</ul>
+<p>按照算法复杂度可分为两类：</p>
+<ul>
+<li>简单算法：包括冒泡排序、简单选择排序和直接插入排序</li>
+<li>改进算法：包括希尔排序、堆排序、归并排序和快速排序</li>
+</ul>
+<p>以下的七种排序算法只是所有排序算法中最经典的几种，不代表全部。</p>
+<h2 id="二、冒泡排序"><a href="#二、冒泡排序" class="headerlink" title="二、冒泡排序"></a>二、冒泡排序</h2><p>冒泡排序 (Bubble sort): 时间复杂度$$O(n^2)$$</p>
+<p>交换排序的一种。其核心思想是: 两两比较相邻记录的关键字，如果反序则交换，直到没有反序记录为止。<br>其实现细节可以不同，比如下面3种:</p>
+<ol>
+<li>最简单排序实现:<code>bubble_sort_simple</code></li>
+<li>冒泡排序:<code>bubble_sort</code></li>
+<li>改进的冒泡排序:<code>bubble_sort_advance</code></li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#!/usr/bin/env python</span></div><div class="line"><span class="comment"># -*- coding:utf-8 -*-</span></div><div class="line"><span class="comment"># Author: Liu Jiang</span></div><div class="line"><span class="comment"># Python 3.5</span></div><div class="line"><span class="comment"># 冒泡排序算法</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">SQList</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, lis=None)</span>:</span></div><div class="line">        self.r = lis</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">swap</span><span class="params">(self, i, j)</span>:</span></div><div class="line">        <span class="string">"""定义一个交换元素的方法，方便后面调用。"""</span></div><div class="line">        temp = self.r[i]</div><div class="line">        self.r[i] = self.r[j]</div><div class="line">        self.r[j] = temp</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">bubble_sort_simple</span><span class="params">(self)</span>:</span></div><div class="line">        <span class="string">"""</span></div><div class="line">        最简单的交换排序，时间复杂度O(n^2)</div><div class="line">        """</div><div class="line">        lis = self.r</div><div class="line">        length = len(self.r)</div><div class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(length):</div><div class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> range(i+<span class="number">1</span>, length):</div><div class="line">                <span class="keyword">if</span> lis[i] &gt; lis[j]:</div><div class="line">                    self.swap(i, j)</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">bubble_sort</span><span class="params">(self)</span>:</span></div><div class="line">        <span class="string">"""</span></div><div class="line">        冒泡排序，时间复杂度O(n^2)</div><div class="line">        """</div><div class="line">        lis = self.r</div><div class="line">        length = len(self.r)</div><div class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(length):</div><div class="line">            j = length<span class="number">-2</span></div><div class="line">            <span class="keyword">while</span> j &gt;= i:</div><div class="line">                <span class="keyword">if</span> lis[j] &gt; lis[j+<span class="number">1</span>]:</div><div class="line">                    self.swap(j, j+<span class="number">1</span>)</div><div class="line">                j -= <span class="number">1</span></div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">bubble_sort_advance</span><span class="params">(self)</span>:</span></div><div class="line">        <span class="string">"""</span></div><div class="line">        冒泡排序改进算法，时间复杂度O(n^2)</div><div class="line">        设置flag，当一轮比较中未发生交换动作，则说明后面的元素其实已经有序排列了。</div><div class="line">        对于比较规整的元素集合，可提高一定的排序效率。</div><div class="line">        """</div><div class="line">        lis = self.r</div><div class="line">        length = len(self.r)</div><div class="line">        flag = <span class="keyword">True</span></div><div class="line">        i = <span class="number">0</span></div><div class="line">        <span class="keyword">while</span> i &lt; length <span class="keyword">and</span> flag:</div><div class="line">            flag = <span class="keyword">False</span></div><div class="line">            j = length - <span class="number">2</span></div><div class="line">            <span class="keyword">while</span> j &gt;= i:</div><div class="line">                <span class="keyword">if</span> lis[j] &gt; lis[j + <span class="number">1</span>]:</div><div class="line">                    self.swap(j, j + <span class="number">1</span>)</div><div class="line">                    flag = <span class="keyword">True</span></div><div class="line">                j -= <span class="number">1</span></div><div class="line">            i += <span class="number">1</span></div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__str__</span><span class="params">(self)</span>:</span></div><div class="line">        ret = <span class="string">""</span></div><div class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> self.r:</div><div class="line">            ret += <span class="string">" %s"</span> % i</div><div class="line">        <span class="keyword">return</span> ret</div><div class="line"></div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</div><div class="line">    sqlist = SQList([<span class="number">4</span>,<span class="number">1</span>,<span class="number">7</span>,<span class="number">3</span>,<span class="number">8</span>,<span class="number">5</span>,<span class="number">9</span>,<span class="number">2</span>,<span class="number">6</span>])</div><div class="line">    <span class="comment"># sqlist.bubble_sort_simple()</span></div><div class="line">    <span class="comment"># sqlist.bubble_sort()</span></div><div class="line">    sqlist.bubble_sort_advance()</div><div class="line">    print(sqlist)</div></pre></td></tr></table></figure>
+<h2 id="三、简单选择排序"><a href="#三、简单选择排序" class="headerlink" title="三、简单选择排序"></a>三、简单选择排序</h2><p>简单选择排序（simple selection sort）:时间复杂度O(n^2)</p>
+<p>通过n-i次关键字之间的比较，从n-i+1个记录中选出关键字最小的记录，并和第i（1&lt;=i&lt;=n)个记录进行交换。</p>
+<p>通俗的说就是，对尚未完成排序的所有元素，从头到尾比一遍，记录下最小的那个元素的下标，也就是该元素的位置。再把该元素交换到当前遍历的最前面。其效率之处在于，每一轮中比较了很多次，但只交换一次。因此虽然它的时间复杂度也是O(n^2)，但比冒泡算法还是要好一点。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#!/usr/bin/env python</span></div><div class="line"><span class="comment"># -*- coding:utf-8 -*-</span></div><div class="line"><span class="comment"># Author: Liu Jiang</span></div><div class="line"><span class="comment"># Python 3.5</span></div><div class="line"><span class="comment"># 简单选择排序</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">SQList</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, lis=None)</span>:</span></div><div class="line">        self.r = lis</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">swap</span><span class="params">(self, i, j)</span>:</span></div><div class="line">        <span class="string">"""定义一个交换元素的方法，方便后面调用。"""</span></div><div class="line">        temp = self.r[i]</div><div class="line">        self.r[i] = self.r[j]</div><div class="line">        self.r[j] = temp</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">select_sort</span><span class="params">(self)</span>:</span></div><div class="line">        <span class="string">"""</span></div><div class="line">        简单选择排序，时间复杂度O(n^2)</div><div class="line">        """</div><div class="line">        lis = self.r</div><div class="line">        length = len(self.r)</div><div class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(length):</div><div class="line">            minimum = i</div><div class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> range(i+<span class="number">1</span>, length):</div><div class="line">                <span class="keyword">if</span> lis[minimum] &gt; lis[j]:</div><div class="line">                    minimum = j</div><div class="line">            <span class="keyword">if</span> i != minimum:</div><div class="line">                self.swap(i, minimum)</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__str__</span><span class="params">(self)</span>:</span></div><div class="line">        ret = <span class="string">""</span></div><div class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> self.r:</div><div class="line">            ret += <span class="string">" %s"</span> % i</div><div class="line">        <span class="keyword">return</span> ret</div><div class="line"></div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</div><div class="line">    sqlist = SQList([<span class="number">4</span>, <span class="number">1</span>, <span class="number">7</span>, <span class="number">3</span>, <span class="number">8</span>, <span class="number">5</span>, <span class="number">9</span>, <span class="number">2</span>, <span class="number">6</span>, <span class="number">0</span>])</div><div class="line">    sqlist.select_sort()</div><div class="line">    print(sqlist)</div></pre></td></tr></table></figure>
+<h2 id="四、直接插入排序"><a href="#四、直接插入排序" class="headerlink" title="四、直接插入排序"></a>四、直接插入排序</h2><p>直接插入排序（Straight Insertion Sort）:时间复杂度O(n^2)</p>
+<p>基本操作是将一个记录插入到已经排好序的有序表中，从而得到一个新的、记录数增1的有序表。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#!/usr/bin/env python</span></div><div class="line"><span class="comment"># -*- coding:utf-8 -*-</span></div><div class="line"><span class="comment"># Author: Liu Jiang</span></div><div class="line"><span class="comment"># Python 3.5</span></div><div class="line"><span class="comment"># 直接插入排序</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">SQList</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, lis=None)</span>:</span></div><div class="line">        self.r = lis</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">insert_sort</span><span class="params">(self)</span>:</span></div><div class="line">        lis = self.r</div><div class="line">        length = len(self.r)</div><div class="line">        <span class="comment"># 下标从1开始</span></div><div class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, length):</div><div class="line">            <span class="keyword">if</span> lis[i] &lt; lis[i<span class="number">-1</span>]:</div><div class="line">                temp = lis[i]</div><div class="line">                j = i<span class="number">-1</span></div><div class="line">                <span class="keyword">while</span> lis[j] &gt; temp <span class="keyword">and</span> j &gt;= <span class="number">0</span>:</div><div class="line">                    lis[j+<span class="number">1</span>] = lis[j]</div><div class="line">                    j -= <span class="number">1</span></div><div class="line">                lis[j+<span class="number">1</span>] = temp</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__str__</span><span class="params">(self)</span>:</span></div><div class="line">        ret = <span class="string">""</span></div><div class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> self.r:</div><div class="line">            ret += <span class="string">" %s"</span> % i</div><div class="line">        <span class="keyword">return</span> ret</div><div class="line"></div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</div><div class="line">    sqlist = SQList([<span class="number">4</span>, <span class="number">1</span>, <span class="number">7</span>, <span class="number">3</span>, <span class="number">8</span>, <span class="number">5</span>, <span class="number">9</span>, <span class="number">2</span>, <span class="number">6</span>, <span class="number">0</span>])</div><div class="line">    sqlist.insert_sort()</div><div class="line">    print(sqlist)</div></pre></td></tr></table></figure>
+<p>该算法需要一个记录的辅助空间。最好情况下，当原始数据就是有序的时候，只需要一轮对比，不需要移动记录，此时时间复杂度为O(n)。然而，这基本是幻想。</p>
+<p>当最坏的情况，即待排序表是逆序的情况，比如{6, 5, 4, 3, 2}，此时需要比较 $$\sum<em>{i=2}^n i = 2+3+ \cdots +n= \frac<br>{(n+2)(n-1)}{2}$$ 次，而记录的移动次数也达到最大值 $$\sum</em>{i=2}^n (i+1) =\frac<br>{(n+4)(n-1)}{2}$$ 次。</p>
+<p>如果排序记录是随机的，那么根据概率相同的原则，平均比较和移动次数约为 $$n^2/4$$ 次。因此我们得出直接插入排序法的时间复杂度为 $$O(n^2)$$ 。从这里也看出，同样的 $$O(n^2)$$ 时间复杂度，直接插入排序法比冒泡和简单选择排序的性能要好一些。</p>
+<h2 id="五、希尔排序"><a href="#五、希尔排序" class="headerlink" title="五、希尔排序"></a>五、希尔排序</h2><p>希尔排序（Shell Sort）是插入排序的改进版本，其核心思想是将原数据集合分割成若干个子序列，然后再对子序列分别进行直接插入排序，使子序列基本有序，最后再对全体记录进行一次直接插入排序。</p>
+<p>这里最关键的是跳跃和分割的策略，也就是我们要怎么分割数据，间隔多大的问题。通常将相距某个“增量”的记录组成一个子序列，这样才能保证在子序列内分别进行直接插入排序后得到的结果是基本有序而不是局部有序。下面的例子中通过： $$increment = int(increment/3)+1$$ 来确定“增量”的值。<br>希尔排序的时间复杂度为： $$O(n^{(3/2)})$$</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#!/usr/bin/env python</span></div><div class="line"><span class="comment"># -*- coding:utf-8 -*-</span></div><div class="line"><span class="comment"># Author: Liu Jiang</span></div><div class="line"><span class="comment"># Python 3.5</span></div><div class="line"><span class="comment"># 希尔排序</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">SQList</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, lis=None)</span>:</span></div><div class="line">        self.r = lis</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">shell_sort</span><span class="params">(self)</span>:</span></div><div class="line">        <span class="string">"""希尔排序"""</span></div><div class="line">        lis = self.r</div><div class="line">        length = len(lis)</div><div class="line">        increment = len(lis)</div><div class="line">        <span class="keyword">while</span> increment &gt; <span class="number">1</span>:</div><div class="line">            increment = int(increment/<span class="number">3</span>)+<span class="number">1</span></div><div class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> range(increment+<span class="number">1</span>, length):</div><div class="line">                <span class="keyword">if</span> lis[i] &lt; lis[i - increment]:</div><div class="line">                    temp = lis[i]</div><div class="line">                    j = i - increment</div><div class="line">                    <span class="keyword">while</span> j &gt;= <span class="number">0</span> <span class="keyword">and</span> temp &lt; lis[j]:</div><div class="line">                        lis[j+increment] = lis[j]</div><div class="line">                        j -= increment</div><div class="line">                    lis[j+increment] = temp</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__str__</span><span class="params">(self)</span>:</span></div><div class="line">        ret = <span class="string">""</span></div><div class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> self.r:</div><div class="line">            ret += <span class="string">" %s"</span> % i</div><div class="line">        <span class="keyword">return</span> ret</div><div class="line"></div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</div><div class="line">    sqlist = SQList([<span class="number">4</span>, <span class="number">1</span>, <span class="number">7</span>, <span class="number">3</span>, <span class="number">8</span>, <span class="number">5</span>, <span class="number">9</span>, <span class="number">2</span>, <span class="number">6</span>, <span class="number">0</span>,<span class="number">123</span>,<span class="number">22</span>])</div><div class="line">    sqlist.shell_sort()</div><div class="line">    print(sqlist)</div></pre></td></tr></table></figure>
+<h2 id="六、堆排序"><a href="#六、堆排序" class="headerlink" title="六、堆排序"></a>六、堆排序</h2><p>堆是具有下列性质的完全二叉树：</p>
+<ul>
+<li>每个分支节点的值都大于或等于其左右孩子的值，称为大顶堆；</li>
+<li>每个分支节点的值都小于或等于其做右孩子的值，称为小顶堆；</li>
+<li>因此，其根节点一定是所有节点中最大（最小）的值。</li>
+</ul>
+<p>###二叉树图</p>
+<p>如果按照层序遍历的方式（广度优先）给节点从1开始编号，则节点之间满足如下关系：</p>
+<p>$$<br>\begin{cases}<br>k<em>i \ge k</em>{2i} \<br>k<em>i \ge k</em>{2i+1}<br>\end{cases}<br>$$</p>
+<p>$$ 或 $$</p>
+<p>$$<br>\begin{cases}<br>k<em>i \le k</em>{2i} \<br>k<em>i \le k</em>{2i+1}<br>\end{cases}<br>1 \le i \le \lfloor \frac n2 \rfloor<br>$$</p>
+<p>堆排序（Heap Sort）就是利用大顶堆或小顶堆的性质进行排序的方法。堆排序的总体时间复杂度为$$O(n^{log^n})$$。（下面采用大顶堆的方式）</p>
+<p>其核心思想是：将待排序的序列构造成一个大顶堆。此时，整个序列的最大值就是堆的根节点。将它与堆数组的末尾元素交换，然后将剩余的 $$n-1$$ 个序列重新构造成一个大顶堆。反复执行前面的操作，最后获得一个有序序列。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#!/usr/bin/env python</span></div><div class="line"><span class="comment"># -*- coding:utf-8 -*-</span></div><div class="line"><span class="comment"># Author: Liu Jiang</span></div><div class="line"><span class="comment"># Python 3.5</span></div><div class="line"><span class="comment"># 堆排序</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">SQList</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, lis=None)</span>:</span></div><div class="line">        self.r = lis</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">swap</span><span class="params">(self, i, j)</span>:</span></div><div class="line">        <span class="string">"""定义一个交换元素的方法，方便后面调用。"""</span></div><div class="line">        temp = self.r[i]</div><div class="line">        self.r[i] = self.r[j]</div><div class="line">        self.r[j] = temp</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">heap_sort</span><span class="params">(self)</span>:</span></div><div class="line">        length = len(self.r)</div><div class="line">        i = int(length/<span class="number">2</span>)</div><div class="line">        <span class="comment"># 将原始序列构造成一个大顶堆</span></div><div class="line">        <span class="comment"># 遍历从中间开始，到0结束，其实这些是堆的分支节点。</span></div><div class="line">        <span class="keyword">while</span> i &gt;= <span class="number">0</span>:</div><div class="line">            self.heap_adjust(i, length<span class="number">-1</span>)</div><div class="line">            i -= <span class="number">1</span></div><div class="line">        <span class="comment"># 逆序遍历整个序列，不断取出根节点的值，完成实际的排序。</span></div><div class="line">        j = length<span class="number">-1</span></div><div class="line">        <span class="keyword">while</span> j &gt; <span class="number">0</span>:</div><div class="line">            <span class="comment"># 将当前根节点，也就是列表最开头，下标为0的值，交换到最后面j处</span></div><div class="line">            self.swap(<span class="number">0</span>, j)</div><div class="line">            <span class="comment"># 将发生变化的序列重新构造成大顶堆</span></div><div class="line">            self.heap_adjust(<span class="number">0</span>, j<span class="number">-1</span>)</div><div class="line">            j -= <span class="number">1</span></div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">heap_adjust</span><span class="params">(self, s, m)</span>:</span></div><div class="line">        <span class="string">"""核心的大顶堆构造方法，维持序列的堆结构。"""</span></div><div class="line">        lis = self.r</div><div class="line">        temp = lis[s]</div><div class="line">        i = <span class="number">2</span>*s</div><div class="line">        <span class="keyword">while</span> i &lt;= m:</div><div class="line">            <span class="keyword">if</span> i &lt; m <span class="keyword">and</span> lis[i] &lt; lis[i+<span class="number">1</span>]:</div><div class="line">                i += <span class="number">1</span></div><div class="line">            <span class="keyword">if</span> temp &gt;= lis[i]:</div><div class="line">                <span class="keyword">break</span></div><div class="line">            lis[s] = lis[i]</div><div class="line">            s = i</div><div class="line">            i *= <span class="number">2</span></div><div class="line">        lis[s] = temp</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__str__</span><span class="params">(self)</span>:</span></div><div class="line">        ret = <span class="string">""</span></div><div class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> self.r:</div><div class="line">            ret += <span class="string">" %s"</span> % i</div><div class="line">        <span class="keyword">return</span> ret</div><div class="line"></div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</div><div class="line">    sqlist = SQList([<span class="number">4</span>, <span class="number">1</span>, <span class="number">7</span>, <span class="number">3</span>, <span class="number">8</span>, <span class="number">5</span>, <span class="number">9</span>, <span class="number">2</span>, <span class="number">6</span>, <span class="number">0</span>, <span class="number">123</span>, <span class="number">22</span>])</div><div class="line">    sqlist.heap_sort()</div><div class="line">    print(sqlist)</div></pre></td></tr></table></figure>
+<p>堆排序的运行时间主要消耗在初始构建堆和重建堆的反复筛选上。<br>其初始构建堆时间复杂度为$$O(n)$$。<br>正式排序时，重建堆的时间复杂度为$$O(n^{logn})$$。<br>所以堆排序的总体时间复杂度为$$O(n^{logn})$$。</p>
+<p>堆排序对原始记录的排序状态不敏感，因此它无论最好、最坏和平均时间复杂度都是$$O(n^{logn})$$。在性能上要好于冒泡、简单选择和直接插入算法。</p>
+<p>空间复杂度上，只需要一个用于交换的暂存单元。但是由于记录的比较和交换是跳跃式的，因此，堆排序也是一种不稳定的排序方法。</p>
+<p>此外，由于初始构建堆的比较次数较多，堆排序不适合序列个数较少的排序工作。</p>
+<h2 id="七、归并排序"><a href="#七、归并排序" class="headerlink" title="七、归并排序"></a>七、归并排序</h2><p>归并排序（Merging Sort）：建立在归并操作上的一种有效的排序算法,该算法是采用分治法（Divide and Conquer）的一个非常典型的应用。将已有序的子序列合并，得到完全有序的序列；即先使每个子序列有序，再使子序列段间有序。若将两个有序表合并成一个有序表，称为二路归并。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#!/usr/bin/env python</span></div><div class="line"><span class="comment"># -*- coding:utf-8 -*-</span></div><div class="line"><span class="comment"># Author: Liu Jiang</span></div><div class="line"><span class="comment"># Python 3.5</span></div><div class="line"><span class="comment"># 归并排序</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">SQList</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, lis=None)</span>:</span></div><div class="line">        self.r = lis</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">swap</span><span class="params">(self, i, j)</span>:</span></div><div class="line">        <span class="string">"""定义一个交换元素的方法，方便后面调用。"""</span></div><div class="line">        temp = self.r[i]</div><div class="line">        self.r[i] = self.r[j]</div><div class="line">        self.r[j] = temp</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">merge_sort</span><span class="params">(self)</span>:</span></div><div class="line">        self.msort(self.r, self.r, <span class="number">0</span>, len(self.r)<span class="number">-1</span>)</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">msort</span><span class="params">(self, list_sr, list_tr, s, t)</span>:</span></div><div class="line">        temp = [<span class="keyword">None</span> <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>, len(list_sr))]</div><div class="line">        <span class="keyword">if</span> s == t:</div><div class="line">            list_tr[s] = list_sr[s]</div><div class="line">        <span class="keyword">else</span>:</div><div class="line">            m = int((s+t)/<span class="number">2</span>)</div><div class="line">            self.msort(list_sr, temp, s,  m)</div><div class="line">            self.msort(list_sr, temp, m+<span class="number">1</span>, t)</div><div class="line">            self.merge(temp, list_tr, s, m, t)</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">merge</span><span class="params">(self, list_sr, list_tr, i, m,  n)</span>:</span></div><div class="line">        j = m+<span class="number">1</span></div><div class="line">        k = i</div><div class="line">        <span class="keyword">while</span> i &lt;= m <span class="keyword">and</span> j &lt;= n:</div><div class="line">            <span class="keyword">if</span> list_sr[i] &lt; list_sr[j]:</div><div class="line">                list_tr[k] = list_sr[i]</div><div class="line">                i += <span class="number">1</span></div><div class="line">            <span class="keyword">else</span>:</div><div class="line">                list_tr[k] = list_sr[j]</div><div class="line">                j += <span class="number">1</span></div><div class="line"></div><div class="line">            k += <span class="number">1</span></div><div class="line">        <span class="keyword">if</span> i &lt;= m:</div><div class="line">            <span class="keyword">for</span> l <span class="keyword">in</span> range(<span class="number">0</span>, m-i+<span class="number">1</span>):</div><div class="line">                list_tr[k+l] = list_sr[i+l]</div><div class="line">        <span class="keyword">if</span> j &lt;= n:</div><div class="line">            <span class="keyword">for</span> l <span class="keyword">in</span> range(<span class="number">0</span>, n-j+<span class="number">1</span>):</div><div class="line">                list_tr[k+l] = list_sr[j+l]</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__str__</span><span class="params">(self)</span>:</span></div><div class="line">        ret = <span class="string">""</span></div><div class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> self.r:</div><div class="line">            ret += <span class="string">" %s"</span> % i</div><div class="line">        <span class="keyword">return</span> ret</div><div class="line"></div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</div><div class="line">    sqlist = SQList([<span class="number">4</span>, <span class="number">1</span>, <span class="number">7</span>, <span class="number">3</span>, <span class="number">8</span>, <span class="number">5</span>, <span class="number">9</span>, <span class="number">2</span>, <span class="number">6</span>, <span class="number">0</span>, <span class="number">12</span>, <span class="number">77</span>, <span class="number">34</span>, <span class="number">23</span>])</div><div class="line">    sqlist.merge_sort()</div><div class="line">    print(sqlist)</div></pre></td></tr></table></figure>
+<p>另外一个版本：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">merge</span><span class="params">(lfrom, lto, low, mid, high)</span>:</span></div><div class="line">    <span class="string">"""</span></div><div class="line">    两段需要归并的序列从左往右遍历，逐一比较，小的就放到</div><div class="line">    lto里去，lfrom下标+1，lto下标+1，然后再取，再比，再放，</div><div class="line">    最后lfrom里的两段比完了，lto里留下的就是从小到大排好的一段。</div><div class="line">    :param lfrom: 原来的列表</div><div class="line">    :param lto: 缓存的列表</div><div class="line">    :param low: 左边一段的开头下标</div><div class="line">    :param mid: 左右两段的中间相隔的下标</div><div class="line">    :param high: 右边一段的最右下标</div><div class="line">    :return:</div><div class="line">    """</div><div class="line">    i, j, k = low, mid, low</div><div class="line">    <span class="keyword">while</span> i &lt; mid <span class="keyword">and</span> j &lt; high:</div><div class="line">        <span class="keyword">if</span> lfrom[i] &lt;= lfrom[j]:</div><div class="line">            lto[k] = lfrom[i]</div><div class="line">            i += <span class="number">1</span></div><div class="line">        <span class="keyword">else</span>:</div><div class="line">            lto[k] = lfrom[j]</div><div class="line">            j += <span class="number">1</span></div><div class="line">        k += <span class="number">1</span></div><div class="line">    <span class="keyword">while</span> i &lt; mid:</div><div class="line">        lto[k] = lfrom[i]</div><div class="line">        i += <span class="number">1</span></div><div class="line">        k += <span class="number">1</span></div><div class="line">    <span class="keyword">while</span> j &lt; high:</div><div class="line">        lto[k] = lfrom[j]</div><div class="line">        j += <span class="number">1</span></div><div class="line">        k += <span class="number">1</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">merge_pass</span><span class="params">(lfrom, lto, llen, slen)</span>:</span></div><div class="line">    <span class="string">"""</span></div><div class="line">    用来处理所有需要合并的段，这需要每段的长度，以及列表的总长。</div><div class="line">    最后的if语句处理表最后部分不规则的情况。</div><div class="line">    :param lfrom: 原来的列表</div><div class="line">    :param lto: 缓存的列表</div><div class="line">    :param llen: 列表总长</div><div class="line">    :param slen: 每段的长度</div><div class="line">    :return:</div><div class="line">    """</div><div class="line">    i = <span class="number">0</span></div><div class="line">    <span class="keyword">while</span> i+<span class="number">2</span>*slen &lt; llen:</div><div class="line">        merge(lfrom, lto, i, i+slen, i+<span class="number">2</span>*slen)</div><div class="line">        i += <span class="number">2</span>*slen</div><div class="line">    <span class="keyword">if</span> i+slen &lt; llen:</div><div class="line">        merge(lfrom, lto, i, i+slen, llen)</div><div class="line">    <span class="keyword">else</span>:</div><div class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> range(i, llen):</div><div class="line">            lto[j] = lfrom[j]</div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">merge_sort</span><span class="params">(lst)</span>:</span></div><div class="line">    <span class="string">"""</span></div><div class="line">    主函数。</div><div class="line">    先安排一个同样大小的列表，作为辅助空间。</div><div class="line">    然后在两个列表直接做往复的归并，每归并一次slen的长度增加一倍，</div><div class="line">    逐渐向llen靠拢，当slen==llen时说明归并结束了。</div><div class="line">    归并完成后最终结果可能恰好保存在templist里，因此代码里做两次归并，</div><div class="line">    保证最后的结果体现在原始的lst列表里。</div><div class="line">    :param lst: 要排序的原始列表</div><div class="line">    :return:</div><div class="line">    """</div><div class="line">    slen, llen = <span class="number">1</span>, len(lst)</div><div class="line">    templist = [<span class="keyword">None</span>]*llen</div><div class="line">    <span class="keyword">while</span> slen &lt; llen:</div><div class="line">        merge_pass(lst, templist, llen, slen)</div><div class="line">        slen *= <span class="number">2</span></div><div class="line">        merge_pass(templist, lst, llen, slen)</div><div class="line">        slen *= <span class="number">2</span></div></pre></td></tr></table></figure>
+<ul>
+<li>归并排序对原始序列元素分布情况不敏感，其时间复杂度为O(nlogn)。</li>
+<li>归并排序在计算过程中需要使用一定的辅助空间，用于递归和存放结果，因此其空间复杂度为O(n+logn)。</li>
+<li>归并排序中不存在跳跃，只有两两比较，因此是一种稳定排序。</li>
+</ul>
+<p>总之，归并排序是一种比较占用内存，但效率高，并且稳定的算法。</p>
+<h2 id="八、快速排序"><a href="#八、快速排序" class="headerlink" title="八、快速排序"></a>八、快速排序</h2><p>快速排序（Quick Sort）由图灵奖获得者Tony Hoare发明，被列为20世纪十大算法之一。冒泡排序的升级版，交换排序的一种。快速排序的时间复杂度为O(nlog(n))。</p>
+<p>快速排序算法的核心思想：通过一趟排序将待排记录分割成独立的两部分，其中一部分记录的关键字均比另一部分记录的关键字小，然后分别对这两部分继续进行排序，以达到整个记录集合的排序目的。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#!/usr/bin/env python</span></div><div class="line"><span class="comment"># -*- coding:utf-8 -*-</span></div><div class="line"><span class="comment"># Author: Liu Jiang</span></div><div class="line"><span class="comment"># Python 3.5</span></div><div class="line"><span class="comment"># 快速排序</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">SQList</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, lis=None)</span>:</span></div><div class="line">        self.r = lis</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">swap</span><span class="params">(self, i, j)</span>:</span></div><div class="line">        <span class="string">"""定义一个交换元素的方法，方便后面调用。"""</span></div><div class="line">        temp = self.r[i]</div><div class="line">        self.r[i] = self.r[j]</div><div class="line">        self.r[j] = temp</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">quick_sort</span><span class="params">(self)</span>:</span></div><div class="line">        <span class="string">"""调用入口"""</span></div><div class="line">        self.qsort(<span class="number">0</span>, len(self.r)<span class="number">-1</span>)</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">qsort</span><span class="params">(self, low, high)</span>:</span></div><div class="line">        <span class="string">"""递归调用"""</span></div><div class="line">        <span class="keyword">if</span> low &lt; high:</div><div class="line">            pivot = self.partition(low, high)</div><div class="line">            self.qsort(low, pivot<span class="number">-1</span>)</div><div class="line">            self.qsort(pivot+<span class="number">1</span>, high)</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">partition</span><span class="params">(self, low, high)</span>:</span></div><div class="line">        <span class="string">"""</span></div><div class="line">        快速排序的核心代码。</div><div class="line">        其实就是将选取的pivot_key不断交换，将比它小的换到左边，将比它大的换到右边。</div><div class="line">        它自己也在交换中不断变换自己的位置，直到完成所有的交换为止。</div><div class="line">        但在函数调用的过程中，pivot_key的值始终不变。</div><div class="line">        :param low:左边界下标</div><div class="line">        :param high:右边界下标</div><div class="line">        :return:分完左右区后pivot_key所在位置的下标</div><div class="line">        """</div><div class="line">        lis = self.r</div><div class="line">        pivot_key = lis[low]</div><div class="line">        <span class="keyword">while</span> low &lt; high:</div><div class="line">            <span class="keyword">while</span> low &lt; high <span class="keyword">and</span> lis[high] &gt;= pivot_key:</div><div class="line">                high -= <span class="number">1</span></div><div class="line">            self.swap(low, high)</div><div class="line">            <span class="keyword">while</span> low &lt; high <span class="keyword">and</span> lis[low] &lt;= pivot_key:</div><div class="line">                low += <span class="number">1</span></div><div class="line">            self.swap(low, high)</div><div class="line">        <span class="keyword">return</span> low</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__str__</span><span class="params">(self)</span>:</span></div><div class="line">        ret = <span class="string">""</span></div><div class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> self.r:</div><div class="line">            ret += <span class="string">" %s"</span> % i</div><div class="line">        <span class="keyword">return</span> ret</div><div class="line"></div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</div><div class="line">    sqlist = SQList([<span class="number">4</span>, <span class="number">1</span>, <span class="number">7</span>, <span class="number">3</span>, <span class="number">8</span>, <span class="number">5</span>, <span class="number">9</span>, <span class="number">2</span>, <span class="number">6</span>, <span class="number">0</span>, <span class="number">123</span>, <span class="number">22</span>])</div><div class="line">    sqlist.quick_sort()</div><div class="line">    print(sqlist)</div></pre></td></tr></table></figure>
+<p>另外一个版本：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">quick_sort</span><span class="params">(nums)</span>:</span></div><div class="line">    <span class="comment"># 封装一层的目的是方便用户调用</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">qsort</span><span class="params">(lst, begin, end)</span>:</span></div><div class="line">        <span class="keyword">if</span> begin &gt;= end:</div><div class="line">            <span class="keyword">return</span></div><div class="line">        i = begin</div><div class="line">        key = lst[begin]</div><div class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> range(begin+<span class="number">1</span>, end+<span class="number">1</span>):</div><div class="line">            <span class="keyword">if</span> lst[j] &lt; key:</div><div class="line">                i += <span class="number">1</span></div><div class="line">                lst[i], lst[j] = lst[j], lst[i]</div><div class="line">        lst[begin], lst[i] = lst[i], lst[begin]</div><div class="line">        qsort(lst, begin, i<span class="number">-1</span>)</div><div class="line">        qsort(lst,i+<span class="number">1</span>,end)</div><div class="line">    qsort(nums, <span class="number">0</span>, len(nums)<span class="number">-1</span>)</div></pre></td></tr></table></figure>
+<ul>
+<li>快速排序的时间性能取决于递归的深度。</li>
+<li>当pivot_key恰好处于记录关键码的中间值时，大小两区的划分比较均衡，接近一个平衡二叉树，此时的时间复杂度为O(nlog(n))。</li>
+<li>当原记录集合是一个正序或逆序的情况下，分区的结果就是一棵斜树，其深度为n-1，每一次执行大小分区，都要使用n-i次比较，其最终时间复杂度为O(n^2)。</li>
+<li>在一般情况下，通过数学归纳法可证明，快速排序的时间复杂度为O(nlog(n))。</li>
+<li>但是由于关键字的比较和交换是跳跃式的，因此，快速排序是一种不稳定排序。</li>
+<li>同时由于采用的递归技术，该算法需要一定的辅助空间，其空间复杂度为O(logn)。</li>
+</ul>
+<p>下面是一个实例测试数据：</p>
+<table>
+<thead>
+<tr>
+<th>测试数据量（个）</th>
+<th>100</th>
+<th>1000</th>
+<th>10000</th>
+<th>100000</th>
+<th>1000000</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>冒泡</td>
+<td>0.001</td>
+<td>0.11</td>
+<td>11s</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>反序冒泡</td>
+<td>0.001</td>
+<td>0.14</td>
+<td>14s</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>快速排序</td>
+<td>0.001</td>
+<td>0.003~0.004</td>
+<td>0.040~0.046</td>
+<td>0.51~0.53</td>
+<td>6.36~6.56s</td>
+</tr>
+</tbody>
+</table>
+<p>从数据中可见：</p>
+<ul>
+<li>数据过万，冒泡算法基本不可用。测试时间忠实的反映了n平方的时间复杂度，数据扩大10倍，耗时增加100倍</li>
+<li>对于Python的列表，反序遍历比正序遍历还是要消耗一定的时间的</li>
+<li>快速排序在数据较大时，其威力显现，但不够稳定，总体还是维护了nlog(n)的复杂度。</li>
+</ul>
+<p>基本的快速排序还有可以优化的地方：</p>
+<h3 id="1-优化选取的pivot-key"><a href="#1-优化选取的pivot-key" class="headerlink" title="1. 优化选取的pivot_key"></a>1. 优化选取的pivot_key</h3><p>前面我们每次选取<code>pivot_key</code>的都是子序列的第一个元素，也就是<code>lis[low]</code>，这就比较看运气。运气好时，该值处于整个序列的靠近中间值，则构造的树比较平衡，运气比较差，处于最大或最小位置附近则构造的树接近斜树。<br>为了保证<code>pivot_key</code>选取的尽可能适中，采取选取序列左中右三个特殊位置的值中，处于中间值的那个数为<code>pivot_key</code>，通常会比直接用<code>lis[low]</code>要好一点。在代码中，在原来的<code>pivot_key = lis[low]</code>这一行前面增加下面的代码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">m = low + int((high-low)/<span class="number">2</span>)</div><div class="line"><span class="keyword">if</span> lis[low] &gt; lis[high]:</div><div class="line">    self.swap(low, high)</div><div class="line"><span class="keyword">if</span> lis[m] &gt; lis[high]:</div><div class="line">    self.swap(high, m)</div><div class="line"><span class="keyword">if</span> lis[m] &gt; lis[low]:</div><div class="line">    self.swap(m, low)</div></pre></td></tr></table></figure>
+<p>如果觉得这样还不够好，还可以将整个序列先划分为3部分，每一部分求出个<code>pivot_key</code>，再对3个<code>pivot_key</code>再做一次上面的比较得出最终的<code>pivot_key</code>。这时的<code>pivot_key</code>应该很大概率是一个比较靠谱的值。</p>
+<h3 id="2-减少不必要的交换"><a href="#2-减少不必要的交换" class="headerlink" title="2. 减少不必要的交换"></a>2. 减少不必要的交换</h3><p>原来的代码中<code>pivot_key</code>这个记录总是再不断的交换中，其实这是没必要的，完全可以将它暂存在某个临时变量中，如下所示：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">partition</span><span class="params">(self, low, high)</span>:</span></div><div class="line">        </div><div class="line">        lis = self.r</div><div class="line"></div><div class="line">        m = low + int((high-low)/<span class="number">2</span>)</div><div class="line">        <span class="keyword">if</span> lis[low] &gt; lis[high]:</div><div class="line">            self.swap(low, high)</div><div class="line">        <span class="keyword">if</span> lis[m] &gt; lis[high]:</div><div class="line">            self.swap(high, m)</div><div class="line">        <span class="keyword">if</span> lis[m] &gt; lis[low]:</div><div class="line">            self.swap(m, low)</div><div class="line"></div><div class="line">        pivot_key = lis[low]</div><div class="line">        <span class="comment"># temp暂存pivot_key的值</span></div><div class="line">        temp = pivot_key</div><div class="line">        <span class="keyword">while</span> low &lt; high:</div><div class="line">            <span class="keyword">while</span> low &lt; high <span class="keyword">and</span> lis[high] &gt;= pivot_key:</div><div class="line">                high -= <span class="number">1</span></div><div class="line">            <span class="comment"># 直接替换，而不交换了</span></div><div class="line">            lis[low] = lis[high]</div><div class="line">            <span class="keyword">while</span> low &lt; high <span class="keyword">and</span> lis[low] &lt;= pivot_key:</div><div class="line">                low += <span class="number">1</span></div><div class="line">            lis[high] = lis[low]</div><div class="line">            lis[low] = temp</div><div class="line">        <span class="keyword">return</span> low</div></pre></td></tr></table></figure>
+<h3 id="3-优化小数组时的排序"><a href="#3-优化小数组时的排序" class="headerlink" title="3. 优化小数组时的排序"></a>3. 优化小数组时的排序</h3><p>快速排序算法的递归操作在进行大量数据排序时，其开销能被接受，速度较快。但进行小数组排序时则不如直接插入排序来得快，也就是杀鸡用牛刀，未必就比菜刀来得快。</p>
+<p>因此，一种很朴素的做法就是根据数据的多少，做个使用哪种算法的选择而已，如下改写<code>qsort</code>方法：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">qsort</span><span class="params">(self, low, high)</span>:</span></div><div class="line">    <span class="string">"""根据序列长短，选择使用快速排序还是简单插入排序"""</span></div><div class="line">    <span class="comment"># 7是一个经验值，可根据实际情况自行决定该数值。</span></div><div class="line">    MAX_LENGTH = <span class="number">7</span></div><div class="line">    <span class="keyword">if</span> high-low &lt; MAX_LENGTH:</div><div class="line">        <span class="keyword">if</span> low &lt; high:</div><div class="line">            pivot = self.partition(low, high)</div><div class="line">            self.qsort(low, pivot - <span class="number">1</span>)</div><div class="line">            self.qsort(pivot + <span class="number">1</span>, high)</div><div class="line">    <span class="keyword">else</span>:</div><div class="line">        <span class="comment"># insert_sort方法是我们前面写过的简单插入排序算法</span></div><div class="line">        self.insert_sort()</div></pre></td></tr></table></figure>
+<h3 id="4-优化递归操作"><a href="#4-优化递归操作" class="headerlink" title="4. 优化递归操作"></a>4. 优化递归操作</h3><p>可以采用尾递归的方式对整个算法的递归操作进行优化，改写<code>qsort</code>方法如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">qsort</span><span class="params">(self, low, high)</span>:</span></div><div class="line">    <span class="string">"""根据序列长短，选择使用快速排序还是简单插入排序"""</span></div><div class="line">    <span class="comment"># 7是一个经验值，可根据实际情况自行决定该数值。</span></div><div class="line">    MAX_LENGTH = <span class="number">7</span></div><div class="line">    <span class="keyword">if</span> high-low &lt; MAX_LENGTH:</div><div class="line">        <span class="comment"># 改用while循环</span></div><div class="line">        <span class="keyword">while</span> low &lt; high:</div><div class="line">            pivot = self.partition(low, high)</div><div class="line">            self.qsort(low, pivot - <span class="number">1</span>)</div><div class="line">            <span class="comment"># 采用了尾递归的方式</span></div><div class="line">            low = pivot + <span class="number">1</span></div><div class="line">    <span class="keyword">else</span>:</div><div class="line">        <span class="comment"># insert_sort方法是我们前面写过的简单插入排序算法</span></div><div class="line">        self.insert_sort()</div></pre></td></tr></table></figure>
+<h2 id="九、排序算法总结"><a href="#九、排序算法总结" class="headerlink" title="九、排序算法总结"></a>九、排序算法总结</h2><p>排序算法的分类：</p>
+<ul>
+<li>排序<ul>
+<li>插入排序类<ul>
+<li>直接插入排序</li>
+<li>希尔排序</li>
+</ul>
+</li>
+<li>选择排序类<ul>
+<li>简单选择排序</li>
+<li>堆排序</li>
+</ul>
+</li>
+<li>交换排序<ul>
+<li>冒泡排序</li>
+<li>快速排序</li>
+</ul>
+</li>
+<li>归并排序类<ul>
+<li>归并排序</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>没有十全十美的算法，有有点就会有缺点，即使是快速排序算法，也只是整体性能上的优越，也存在排序不稳定，需要大量辅助空间，不适于少量数据排序等缺点。</p>
+<p>七种排序算法性能对比</p>
+<table>
+<thead>
+<tr>
+<th>排序方法</th>
+<th>平均情况</th>
+<th>最好情况</th>
+<th>最坏情况</th>
+<th>辅助空间</th>
+<th>稳定性</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>冒泡排序</td>
+<td>$$O(n^2)$$</td>
+<td>$$O(n)$$</td>
+<td>$$O(n^2)$$</td>
+<td>$$O(1)$$</td>
+<td>稳定</td>
+</tr>
+<tr>
+<td>简单选择排序</td>
+<td>$$O(n^2)$$</td>
+<td>$$O(n^2)$$</td>
+<td>$$O(n^2)$$</td>
+<td>$$O(1)$$</td>
+<td>稳定</td>
+</tr>
+<tr>
+<td>直接插入排序</td>
+<td>$$O(n^2)$$</td>
+<td>$$O(n)$$</td>
+<td>$$O(n^2)$$</td>
+<td>$$O(1)$$</td>
+<td>稳定</td>
+</tr>
+<tr>
+<td>希尔排序</td>
+<td>$$O(nlogn) \sim O(n^2)$$</td>
+<td>$$O(n^{13})$$</td>
+<td>$$O(n^2)$$</td>
+<td>$$O(1)$$</td>
+<td>不稳定</td>
+</tr>
+<tr>
+<td>堆排序</td>
+<td>$$O(nlogn)$$</td>
+<td>$$O(nlogn)$$</td>
+<td>$$O(nlogn)$$</td>
+<td>$$O(1)$$</td>
+<td>不稳定</td>
+</tr>
+<tr>
+<td>归并排序</td>
+<td>$$O(nlogn)$$</td>
+<td>$$O(nlogn)$$</td>
+<td>$$O(nlogn)$$</td>
+<td>$$O(n)$$</td>
+<td>稳定</td>
+</tr>
+<tr>
+<td>堆排序</td>
+<td>$$O(nlogn)$$</td>
+<td>$$O(nlogn)$$</td>
+<td>$$O(n^2)$$</td>
+<td>$$O(1)\sim O(n)$$</td>
+<td>不稳定</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>如果待排序列基本有序，请直接使用简单的算法，不要使用复杂的改进算法。</li>
+<li>归并排序和快速排序虽然性能高，但是需要更多的辅助空间。其实就是用空间换时间。</li>
+<li>待排序列的元素个数越少，就越适合用简单的排序方法；元素个数越多就越适合用改进的排序算法。</li>
+<li>简单选择排序虽然在时间性能上不好，但它在空间利用上性能很高。特别适合，那些数据量不大，每条数据的信息量又比较多的一类元素的排序。</li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Python/" rel="tag"># Python</a>
+          
+            <a href="/tags/Python3/" rel="tag"># Python3</a>
+          
+            <a href="/tags/算法/" rel="tag"># 算法</a>
+          
+            <a href="/tags/排序/" rel="tag"># 排序</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/03/24/Python的socket模块详解/" rel="next" title="Python Socket 模块详解">
+                <i class="fa fa-chevron-left"></i> Python Socket 模块详解
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="Tom Bloon" />
+          <p class="site-author-name" itemprop="name">Tom Bloon</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">标签</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、排序的基本概念和分类"><span class="nav-number">1.</span> <span class="nav-text">一、排序的基本概念和分类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、冒泡排序"><span class="nav-number">2.</span> <span class="nav-text">二、冒泡排序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三、简单选择排序"><span class="nav-number">3.</span> <span class="nav-text">三、简单选择排序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#四、直接插入排序"><span class="nav-number">4.</span> <span class="nav-text">四、直接插入排序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#五、希尔排序"><span class="nav-number">5.</span> <span class="nav-text">五、希尔排序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#六、堆排序"><span class="nav-number">6.</span> <span class="nav-text">六、堆排序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#七、归并排序"><span class="nav-number">7.</span> <span class="nav-text">七、归并排序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#八、快速排序"><span class="nav-number">8.</span> <span class="nav-text">八、快速排序</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-优化选取的pivot-key"><span class="nav-number">8.1.</span> <span class="nav-text">1. 优化选取的pivot_key</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-减少不必要的交换"><span class="nav-number">8.2.</span> <span class="nav-text">2. 减少不必要的交换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-优化小数组时的排序"><span class="nav-number">8.3.</span> <span class="nav-text">3. 优化小数组时的排序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-优化递归操作"><span class="nav-number">8.4.</span> <span class="nav-text">4. 优化递归操作</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#九、排序算法总结"><span class="nav-number">9.</span> <span class="nav-text">九、排序算法总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  1988 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Tom Bloon</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+</body>
+</html>

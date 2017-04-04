@@ -1,0 +1,884 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Slabo 27px:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Python,Python3,queue," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="1. 队列队列类似于一条管道,元素先进先出,进put(arg),取get()
+
+有一点需要注意的是:队列都是在内存中操作,进程退出,队列清空,另外,队列也是一个阻塞的形态.
+
+2. 队列分类队列有很多中,但都依赖模块queue
+
+
+
+队列方式
+特点
+
+
+
+
+queue.Queue
+先进先出队列
+
+
+queue.LifoQueue
+后进先出队列
+
+
+queue.PriorityQueue
+优先级队列">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python3 queue模块">
+<meta property="og:url" content="https://tombloon.github.io/2017/03/13/python3-queue/index.html">
+<meta property="og:site_name" content="TBOOKS">
+<meta property="og:description" content="1. 队列队列类似于一条管道,元素先进先出,进put(arg),取get()
+
+有一点需要注意的是:队列都是在内存中操作,进程退出,队列清空,另外,队列也是一个阻塞的形态.
+
+2. 队列分类队列有很多中,但都依赖模块queue
+
+
+
+队列方式
+特点
+
+
+
+
+queue.Queue
+先进先出队列
+
+
+queue.LifoQueue
+后进先出队列
+
+
+queue.PriorityQueue
+优先级队列">
+<meta property="og:image" content="https://tombloon.github.io/images/o_20131112221130906.jpg">
+<meta property="og:updated_time" content="2017-03-13T11:46:32.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Python3 queue模块">
+<meta name="twitter:description" content="1. 队列队列类似于一条管道,元素先进先出,进put(arg),取get()
+
+有一点需要注意的是:队列都是在内存中操作,进程退出,队列清空,另外,队列也是一个阻塞的形态.
+
+2. 队列分类队列有很多中,但都依赖模块queue
+
+
+
+队列方式
+特点
+
+
+
+
+queue.Queue
+先进先出队列
+
+
+queue.LifoQueue
+后进先出队列
+
+
+queue.PriorityQueue
+优先级队列">
+<meta name="twitter:image" content="https://tombloon.github.io/images/o_20131112221130906.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://tombloon.github.io/2017/03/13/python3-queue/"/>
+
+
+
+
+
+  <title> Python3 queue模块 | TBOOKS </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">TBOOKS</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">TB's NoteBooks</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://tombloon.github.io/2017/03/13/python3-queue/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Tom Bloon">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="TBOOKS">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Python3 queue模块
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-13T14:53:25+08:00">
+                2017-03-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="1-队列"><a href="#1-队列" class="headerlink" title="1. 队列"></a>1. 队列</h2><p>队列类似于一条管道,元素先进先出,进<code>put(arg)</code>,取<code>get()</code></p>
+<blockquote>
+<p><strong>有一点需要注意的是</strong>:队列都是在内存中操作,进程退出,队列清空,另外,队列也是一个阻塞的形态.</p>
+</blockquote>
+<h2 id="2-队列分类"><a href="#2-队列分类" class="headerlink" title="2. 队列分类"></a>2. 队列分类</h2><p>队列有很多中,但都依赖模块<code>queue</code></p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left"><strong>队列方式</strong></th>
+<th style="text-align:left"><strong>特点</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">queue.Queue</td>
+<td style="text-align:left">先进先出队列</td>
+</tr>
+<tr>
+<td style="text-align:left">queue.LifoQueue</td>
+<td style="text-align:left">后进先出队列</td>
+</tr>
+<tr>
+<td style="text-align:left">queue.PriorityQueue</td>
+<td style="text-align:left">优先级队列</td>
+</tr>
+<tr>
+<td style="text-align:left">queue.deque</td>
+<td style="text-align:left">双线队列</td>
+</tr>
+</tbody>
+</table>
+<h2 id="3-队列的方法"><a href="#3-队列的方法" class="headerlink" title="3. 队列的方法"></a>3. 队列的方法</h2><table>
+<thead>
+<tr>
+<th style="text-align:right">方法</th>
+<th style="text-align:left">用法说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right">put</td>
+<td style="text-align:left">放数据, <code>Queue.put()</code> 默认有 <code>block=True</code> 和 <code>timeout</code> 两个参数。<br>当 <code>block = True</code>时，写入是阻塞式的，阻塞时间由 <code>timeout</code> 确定。<br>当队列<code>q</code>被（其他线程）写满后，这段代码就会阻塞，直至其他线程取走数据。<br><code>Queue.put()</code>方法加上<code>block=False</code>的参数，即可解决这个隐蔽的问题。<br>但要注意，非阻塞方式写队列，当队列满时会抛出 <code>exception Queue.Full</code> 的异常</td>
+</tr>
+<tr>
+<td style="text-align:right">get</td>
+<td style="text-align:left">取数据(默认阻塞),<code>Queue.get([block[, timeout]])</code>获取队列，<code>timeout</code>等待时间</td>
+</tr>
+<tr>
+<td style="text-align:right">empty</td>
+<td style="text-align:left">如果队列为空，返回<code>True</code>,反之<code>False</code></td>
+</tr>
+<tr>
+<td style="text-align:right">qsize</td>
+<td style="text-align:left">显示队列中真实存在的元素长度</td>
+</tr>
+<tr>
+<td style="text-align:right">maxsize</td>
+<td style="text-align:left">最大支持的队列长度,使用时无括号</td>
+</tr>
+<tr>
+<td style="text-align:right">join</td>
+<td style="text-align:left">实际上意味着等到队列为空，再执行别的操作</td>
+</tr>
+<tr>
+<td style="text-align:right">task_done</td>
+<td style="text-align:left">在完成一项工作之后，<code>Queue.task_done()</code>函数向任务已经完成的队列发送一个信号</td>
+</tr>
+<tr>
+<td style="text-align:right">full</td>
+<td style="text-align:left">如果队列满了，返回<code>True</code>,反之<code>False</code></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><p><strong>put</strong></p>
+<ul>
+<li><p>放数据, <code>Queue.put()</code> 默认有 <code>block=True</code> 和 <code>timeout</code> 两个参数。</p>
+</li>
+<li><p>当<code>block = True</code>时，写入是阻塞式的，阻塞时间由<code>timeout</code>确定。</p>
+</li>
+<li><p>当队列<code>q</code>被（其他线程）写满后，这段代码就会阻塞，直至其他线程取走数据。</p>
+</li>
+<li><p><code>Queue.put()</code> 方法加上 <code>block=False</code> 的参数，即可解决这个隐蔽的问题。</p>
+</li>
+<li><p><strong>但要注意，非阻塞方式写队列，当队列满时会抛出 <code>exception Queue.Full</code> 的异常</strong></p>
+</li>
+</ul>
+</li>
+<li><p><strong>get</strong></p>
+<ul>
+<li>取数据(默认阻塞),<code>Queue.get([block[, timeout]])</code>获取队列，<code>timeout</code>等待时间</li>
+</ul>
+</li>
+<li><p><strong>empty</strong></p>
+<ul>
+<li>如果队列为空，返回<code>True</code>,反之<code>False</code></li>
+</ul>
+</li>
+<li><p><strong>qsize</strong></p>
+<ul>
+<li>显示队列中真实存在的元素长度</li>
+</ul>
+</li>
+<li><p><strong>maxsize</strong></p>
+<ul>
+<li>最大支持的队列长度,使用时无括号</li>
+</ul>
+</li>
+<li><p><strong>join</strong></p>
+<ul>
+<li>实际上意味着等到队列为空，再执行别的操作</li>
+</ul>
+</li>
+<li><p><strong>task_done</strong></p>
+<ul>
+<li>在完成一项工作之后，<code>Queue.task_done()</code>函数向任务已经完成的队列发送一个信号</li>
+</ul>
+</li>
+<li><p><strong>full</strong></p>
+<ul>
+<li>如果队列满了，返回<code>True</code>,反之<code>False</code></li>
+</ul>
+</li>
+</ul>
+<h3 id="1-单向队列"><a href="#1-单向队列" class="headerlink" title="(1). 单向队列"></a>(1). 单向队列</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> queue</div><div class="line"></div><div class="line">q=queue.Queue(<span class="number">5</span>)    <span class="comment"># 如果不设置长度,默认为无限长</span></div><div class="line">print(q.maxsize)    <span class="comment"># 注意没有括号</span></div><div class="line">q.put(<span class="number">123</span>)</div><div class="line">q.put(<span class="number">456</span>)</div><div class="line">q.put(<span class="number">789</span>)</div><div class="line">q.put(<span class="number">100</span>)</div><div class="line">q.put(<span class="number">111</span>)</div><div class="line">q.put(<span class="number">233</span>)</div><div class="line">print(q.get())</div><div class="line">print(q.get())</div></pre></td></tr></table></figure>
+<p>如此打印时候是阻塞的,为什么呢,因为创建了5个元素长度的队列,但我put进去了6个,所以就阻塞了.如果少写一个能显示出正确的<code>123</code>.</p>
+<h3 id="2-后进先出队列"><a href="#2-后进先出队列" class="headerlink" title="(2). 后进先出队列"></a>(2). 后进先出队列</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">q = queue.LifoQueue()</div><div class="line">q.put(<span class="number">12</span>)</div><div class="line">q.put(<span class="number">34</span>)</div><div class="line">print(q.get())</div></pre></td></tr></table></figure>
+<h3 id="3-优先级队列"><a href="#3-优先级队列" class="headerlink" title="(3). 优先级队列"></a>(3). 优先级队列</h3><p><strong>需要注意的是,优先级队列put的是一个元组,(优先级,数据),优先级数越小,级别越高</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">q = queue.PriorityQueue()</div><div class="line">q.put((<span class="number">3</span>,<span class="string">'aaaaa'</span>))</div><div class="line">q.put((<span class="number">3</span>,<span class="string">'bbbbb'</span>))</div><div class="line">q.put((<span class="number">1</span>,<span class="string">'ccccc'</span>))</div><div class="line">q.put((<span class="number">3</span>,<span class="string">'ddddd'</span>))</div><div class="line">print(q.get())</div><div class="line">print(q.get())</div></pre></td></tr></table></figure>
+<p>out:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">(1, <span class="string">'ccccc'</span>)</div><div class="line">(3, <span class="string">'aaaaa'</span>)</div></pre></td></tr></table></figure>
+<h3 id="4-双线队列"><a href="#4-双线队列" class="headerlink" title="(4). 双线队列"></a>(4). 双线队列</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">q = queue.deque()</div><div class="line">q.append(<span class="number">123</span>)</div><div class="line">q.append(<span class="number">456</span>)</div><div class="line">q.appendleft(<span class="number">780</span>)</div><div class="line">print(q.pop())</div><div class="line">print(q.popleft())</div></pre></td></tr></table></figure>
+<p>out:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">456</div><div class="line">780</div></pre></td></tr></table></figure>
+<h2 id="4-生产消费者模型"><a href="#4-生产消费者模型" class="headerlink" title="4. 生产消费者模型"></a>4. 生产消费者模型</h2><h3 id="解决什么问题-使用场景"><a href="#解决什么问题-使用场景" class="headerlink" title="解决什么问题, 使用场景"></a>解决什么问题, 使用场景</h3><p>从下面图中可以发现生产者和消费者之间用中间类似一个队列一样的东西串起来。这个队列可以想像成一个存放产品的“仓库”，生产者只需要关心这个“仓库”，并不需要关心具体的消费者，对于生产者而言甚至都不知道有这些消费者存在。对于消费者而言他也不需要关心具体的生产者，到底有多少生产者也不是他关心的事情，他只要关心这个“仓库”中还有没有东西。这种模型是一种松耦合模型。这样可以回答我上面提出的第一个问题。这个模型的产生就是为了复用和解耦。比如常见的消息框架（非常经典的一种生产者消费者模型的使用场景）ActiveMQ。发送端和接收端用Topic进行关联。这个Topic可以理解为我们这里“仓库”的地址，这样就可以实现点对点和广播两种方式进行消息的分发。</p>
+<p><img src="/images/o_20131112221130906.jpg" alt=""></p>
+<h2 id="5-一句话总结"><a href="#5-一句话总结" class="headerlink" title="5. 一句话总结"></a>5. 一句话总结</h2><p><strong>解决程序解耦,较少的资源解决高并发的问题</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> queue,threading,time</div><div class="line"></div><div class="line">q=queue.Queue()</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">product</span><span class="params">(arg)</span>:</span></div><div class="line">    <span class="keyword">while</span> <span class="keyword">True</span>:</div><div class="line">        q.put(str(arg)+<span class="string">'包子'</span>)</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">consumer</span><span class="params">(arg)</span>:</span></div><div class="line">    <span class="keyword">while</span> <span class="keyword">True</span>:</div><div class="line">        print(arg,q.get())</div><div class="line">        time.sleep(<span class="number">2</span>)</div><div class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">3</span>):</div><div class="line">    t=threading.Thread(target=product,args=(i,))</div><div class="line">    t.start()</div><div class="line"><span class="keyword">for</span> j <span class="keyword">in</span> range(<span class="number">20</span>):</div><div class="line">    t=threading.Thread(target=consumer,args=(j,))</div><div class="line">    t.start()</div></pre></td></tr></table></figure>
+<p>摘至 <a href="http://www.cnblogs.com/ccorz/p/5683114.html" target="_blank" rel="external">博客园-ccorz</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Python/" rel="tag"># Python</a>
+          
+            <a href="/tags/Python3/" rel="tag"># Python3</a>
+          
+            <a href="/tags/queue/" rel="tag"># queue</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/03/13/Python-format/" rel="next" title="Python format">
+                <i class="fa fa-chevron-left"></i> Python format
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/03/24/Python的socket模块详解/" rel="prev" title="Python Socket 模块详解">
+                Python Socket 模块详解 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="Tom Bloon" />
+          <p class="site-author-name" itemprop="name">Tom Bloon</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">标签</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-队列"><span class="nav-number">1.</span> <span class="nav-text">1. 队列</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-队列分类"><span class="nav-number">2.</span> <span class="nav-text">2. 队列分类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-队列的方法"><span class="nav-number">3.</span> <span class="nav-text">3. 队列的方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-单向队列"><span class="nav-number">3.1.</span> <span class="nav-text">(1). 单向队列</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-后进先出队列"><span class="nav-number">3.2.</span> <span class="nav-text">(2). 后进先出队列</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-优先级队列"><span class="nav-number">3.3.</span> <span class="nav-text">(3). 优先级队列</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-双线队列"><span class="nav-number">3.4.</span> <span class="nav-text">(4). 双线队列</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-生产消费者模型"><span class="nav-number">4.</span> <span class="nav-text">4. 生产消费者模型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#解决什么问题-使用场景"><span class="nav-number">4.1.</span> <span class="nav-text">解决什么问题, 使用场景</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-一句话总结"><span class="nav-number">5.</span> <span class="nav-text">5. 一句话总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  1988 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Tom Bloon</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+</body>
+</html>
